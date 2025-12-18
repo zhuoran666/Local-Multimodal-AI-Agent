@@ -1,6 +1,3 @@
-这是一份为您定制的 `README.md` 文档。它是根据您提供的完整 Python 代码逻辑、所使用的技术栈以及命令行接口编写的。您可以直接将以下内容复制并保存为 `README.md` 文件。
-
----
 
 # 🧠 Local AI Multimodal Manager (本地 AI 智能文献与图像管理助手)
 
