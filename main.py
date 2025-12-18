@@ -14,7 +14,7 @@ from sentence_transformers import SentenceTransformer, util
 model_cache_dir="./model_cache"
 db_path="./db"
 class Agent:
-    def __init__(self, db_path):
+    def __init__(self, db_path="./db"):
         print("正在初始化本地 AI 智能文献与图像管理助手...")
         os.makedirs(model_cache_dir, exist_ok=True)
         #初始化向量数据库
@@ -353,3 +353,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
