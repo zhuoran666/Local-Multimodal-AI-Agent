@@ -1,28 +1,31 @@
 
-# 🧠 Local AI Multimodal Manager (本地 AI 智能文献与图像管理助手)
-
-一个功能强大的本地化多模态资源管理工具。它利用最前沿的 AI 模型（CLIP, Transformer, BART），实现了对**图片**和**学术论文（PDF）**的语义检索、深度内容分析以及自动化分类整理。所有数据和模型均存储在本地，保护隐私且无需联网即可使用（首次加载除外）。
-
-## ✨ 核心功能 (Core Features)
-
-1.  **🖼️ 语义化以文搜图 (Image Semantic Search)**
-    *   支持使用自然语言（中文或英文）搜索本地图片库。
-    *   无需标签，AI 自动理解图片内容（例如搜索 "一只在睡觉的猫" 即可找到对应图片）。
-2.  **📄 深度文档检索 (Deep Document Retrieval - RAG)**
-    *   **片段级定位**：不仅仅是找到文档，还能精准定位到 PDF 的具体**页码**和**文本片段**。
-    *   **跨语言检索**：支持用中文搜索英文论文（反之亦然）。
-    *   **抗干扰读取**：基于 `pdfplumber` 的智能文本提取，有效处理单词粘连和排版问题。
-3.  **📂 智能自动化分类 (Zero-Shot Organization)**
-    *   **零样本分类**：无需预先训练，只需提供类别名称（如 "CV, NLP, 金融"），AI 即可根据论文的**标题**和**摘要**自动将文件移动到对应文件夹。
-    *   支持单个文件或整个文件夹的批量整理。
-4.  **🔒 完全本地化**
-    *   向量数据库 (`ChromaDB`) 和所有 AI 模型均存储在本地 (`./db` 和 `./model_cache`)，无隐私泄露风险。
 
 ---
 
-## 🛠️ 技术选型 (Tech Stack)
+# Local AI Multimodal Manager (本地 AI 智能文献与图像管理助手)
 
-本项目集成了多个 SOTA (State-of-the-Art) 模型与库，以实现最佳性能：
+本地化多模态资源管理工具。它利用多模态大模型（CLIP, Transformer），实现了对**图片**和**学术论文**的语义检索、深度内容分析以及自动化分类整理。所有数据和模型均存储在本地。
+
+## 核心功能 (Core Features)
+
+1.  **以文搜图 (Image Semantic Search)**
+    *   支持使用自然语言（中文或英文）搜索本地图片库。
+    *   无需标签，AI 自动理解图片内容（例如搜索 "一只在睡觉的猫" 即可找到对应图片）。
+2.  **文档检索 (Deep Document Retrieval - RAG)**
+    *   **片段级定位**：不仅仅是找到文档，还能精准定位到 PDF 的具体**页码**和**文本片段**。
+    *   **跨语言检索**：支持用中文搜索英文论文。
+    *   **抗干扰读取**：基于 `pdfplumber` 的智能文本提取，有效处理单词粘连和排版问题。
+3.  **自动分类 (Zero-Shot Organization)**
+    *   **零样本分类**：无需预先训练，只需提供类别名称（如 "CV, NLP, 金融"），AI 即可根据论文的**标题**和**摘要**自动将文件移动到对应文件夹。
+    *   支持单个文件或整个文件夹的批量整理。
+4.  **本地化**
+    *   向量数据库 (`ChromaDB`) 和所有 AI 模型均存储在本地 (`./db` 和 `./model_cache`)。
+
+---
+
+## 技术选型 (Tech Stack)
+
+本项目集成了多个模型与库，以实现最佳性能：
 
 | 模块 | 技术/模型 | 说明 |
 | :--- | :--- | :--- |
@@ -31,11 +34,11 @@
 | **文档嵌入** | **Sentence-Transformer** | `paraphrase-multilingual-MiniLM-L12-v2`，强大的多语言文本向量化模型。 |
 | **智能分类** | **BART-Large-MNLI** | `facebook/bart-large-mnli`，用于 Zero-Shot（零样本）文本分类。 |
 | **数据库** | **ChromaDB** | 高性能本地向量数据库，支持余弦相似度检索。 |
-| **PDF 处理** | **pdfplumber** | 专业的 PDF 文本提取库，解决复杂排版解析问题。 |
+| **PDF 处理** | **pdfplumber** | 专业的 PDF 文本提取库，解决复杂排版解析和乱码问题。 |
 
 ---
 
-## ⚙️ 环境配置与安装 (Installation)
+##  环境配置与安装 (Installation)
 
 建议使用 Python 3.8+ 环境。
 
@@ -50,18 +53,17 @@
 pip install torch torchvision
 pip install chromadb transformers sentence-transformers pdfplumber pillow
 
-# 安装 OpenAI CLIP (需从 GitHub 直接安装)
 pip install git+https://github.com/openai/CLIP.git
 ```
 
 ### 3. 目录结构说明
 运行程序后，系统会自动创建以下文件夹：
-*   `./model_cache`: 存放下载的 AI 模型文件（避免重复下载）。
+*   `./model_cache`: 存放下载的模型文件（避免重复下载）。
 *   `./db`: 存放 ChromaDB 向量数据库文件。
 
 ---
 
-## 🚀 使用说明 (Usage)
+## 使用说明 (Usage)
 
 所有操作均通过命令行 (`main.py`) 完成。
 
@@ -74,7 +76,7 @@ pip install git+https://github.com/openai/CLIP.git
 python main.py add_image ./photos/cat.jpg
 
 # 批量添加文件夹中的所有图片
-python main.py add_image E:/Datasets/Images
+python main.py add_image E:/images
 ```
 
 #### 以文搜图
@@ -82,7 +84,6 @@ python main.py add_image E:/Datasets/Images
 ```bash
 # 搜索示例
 python main.py search_image "雪山下的湖泊"
-# 或者
 python main.py search_image "a dog playing with a ball"
 ```
 
@@ -91,13 +92,13 @@ python main.py search_image "a dog playing with a ball"
 ### 2. 文档（PDF）管理
 
 #### 添加文档到数据库
-系统会对 PDF 进行全文切片（Chunking），并记录页码。支持单文件或文件夹。
+系统会对 PDF 进行全文切片（Chunk），并记录页码。支持单文件或文件夹。
 ```bash
 # 索引单个 PDF
 python main.py add_doc ./papers/Attention_is_all_you_need.pdf
 
 # 索引整个论文文件夹
-python main.py add_doc E:/Research/Papers
+python main.py add_doc E:/papers
 ```
 
 #### 语义搜索文档
@@ -131,24 +132,62 @@ python main.py sort <目标路径> --topics "<类别1>,<类别2>,<类别3>"
 ```
 
 #### 示例
-假设你有一堆乱七八糟的论文在 `./downloads` 文件夹下：
+假设你有一堆论文在 `./downloads` 文件夹下，需要分成"CV,NLP,RL"三类：
 
 ```bash
 # 自动将论文分类到 CV, NLP, RL 三个文件夹中
 python main.py sort ./downloads --topics "Computer Vision, Natural Language Processing, Reinforcement Learning"
 ```
 
-> **💡 提示：** 为了提高分类准确率，建议使用**全称**（如 "Computer Vision" 而非 "CV"），或者在类别中加入相关关键词。
+> **提示：** 为了提高分类准确率，建议使用**全称**（如 "Computer Vision" 而非 "CV"），或者在类别中加入相关关键词。
+---
+## 演示报告 (Demo Report)
+
+本章展示了系统的核心功能运行效果。
+
+### 1. 模型加载与初始化
+系统首次运行时会自动加载 CLIP、Multilingual-CLIP、Sentence-Transformer 以及 BART-Large-MNLI 模型。
+![模型初始化](./assets/init.png)
+
+### 2. 核心功能演示
+
+#### 2.1 以文搜图
+**测试命令：** `python main.py search_image "可爱的小猫"`
+**结果分析：** 系统成功理解了自然语言指令，并返回了语义最接近的图片，给出了相似度评分。
+![图片搜索演示](./assets/img.gif)
+
+#### 2.2 文档检索
+**测试命令：** `python main.py search_doc "Transformer 的核心架构是什么"`
+**结果分析：** 
+*   系统不仅找到了相关论文（*Attention is All You Need*）。
+*   **精准定位**：准确返回了第 3 页和第 9 页。
+*   **片段展示**：直接提取了包含 "Encoder-Decoder" 和 "Self-attention" 的关键文本片段。
+![文档搜索演示](./assets/search_pdf1.png)
+![文档搜索演示](./assets/search_pdf2.png)
+#### 2.3 自动分类
+**测试场景：** 对混合了 CV、NLP 和 RL 论文的文件夹进行整理。
+**测试命令：** `python main.py sort E:\多模态\2\paper --topic "Computer Vision, Natural Language Processing, Reinforcement Learning"`
+**结果分析：**
+系统利用 Zero-Shot 分类模型，成功地将15篇论文都进行了分类
+
+
+
+**整理后的文件夹结构：**
+![文件夹结构](./assets/sort.gif)
+
+### 3. 实验结论
+通过集成 CLIP 和 LLM 技术，本系统成功实现了本地化的多模态数据管理。相比传统基于文件名的搜索，语义检索在处理非结构化数据（图片、长文本）时表现出了极高的准确性和实用性。
+
+
+
+
 
 ---
 
-## 📝 注意事项 (Notes)
+## 注意事项 (Notes)
 
-1.  **首次运行时间**：第一次运行时，程序会自动从 HuggingFace 和 OpenAI 下载所需的模型权重（约 2GB+）。请保持网络通畅，下载完成后模型会保存在 `./model_cache`，后续运行速度会非常快。
+1.  **首次运行时间**：第一次运行时，程序会自动从 HuggingFace 和 OpenAI 下载所需的模型权重。请保持网络通畅，下载完成后模型会保存在 `./model_cache`，后续运行速度会非常快。
 2.  **显存占用**：程序会自动检测 GPU。如果有 NVIDIA 显卡 (CUDA)，速度会显著提升；如果是 CPU 运行，处理大量 PDF 时可能会稍慢。
 3.  **重置数据库**：如果需要清空数据重新索引，只需直接删除目录下的 `./db` 文件夹即可。
 
 ---
-
-## 📧 联系与反馈
-如有问题，请提交 Issue 或检查代码中的报错日志。Enjoy your AI Assistant! 🚀
